@@ -1,23 +1,63 @@
-version: '3.8'
-
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
+  # Servicio RabbitMQ
+  rabbit:
+    image: rabbitmq:3.10-management
+    container_name: rabbitmq_service
     ports:
-      - 5672:5672
-      - 15672:15672
+      - "5672:5672" # Puerto para la conexión de RabbitMQ
+      - "15672:15672" # Puerto para la interfaz de administración web
     environment:
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: password
-
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/opt/rabbitmq/var/lib/rabbitmq  # Persistencia de datos
+  # Servicio Node.js (NestJS)
   orders:
-    build: ./orders
+    build: ./orders    
+    container_name: nestjs_app
+    depends_on:
+      - rabbit
     ports:
-      - 3000:3000
-    depends_on:
-      - rabbitmq
+      - "3000:3000" # Puerto para la aplicación NestJS
+    environment:
+      - RABBITMQ_HOST=rabbit  # Host de RabbitMQ
+      - RABBITMQ_PORT=5672    # Puerto de RabbitMQ
+      - NODE_ENV=development   # Opcional: para configuración de entorno de desarrollo
+    volumes:
+      - ./orders:/app # Monta el directorio local para la aplicación (desarrollo)
+      - /app/node_modules
+volumes:
+  rabbitmq_data:
+    driver: local
 
-  billing:
-    build: ./billing
-    depends_on:
-      - rabbitmq
+
+
+
+# services:
+#   rabbitmq:
+#     image: rabbitmq:3.13-management
+#     ports:
+#       - 5672:5672
+#       - 15672:15672
+#     container_name: rabbitmq
+#     networks:
+#       - app-network
+
+#   orders:
+#     build: ./orders
+#     ports:
+#       - 3000:3000
+#     volumes:
+#       - ./orders:/app
+#       - /app/node_modules
+#     depends_on:
+#       - rabbitmq
+#     environment:
+#       RABBITMQ_URL: amqp://rabbitmq:5672
+#     networks:
+#       - app-network
+
+# networks:
+#   app-network:
+#     name: app-network
+#     driver: bridge
