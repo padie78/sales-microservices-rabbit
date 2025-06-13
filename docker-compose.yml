@@ -25,7 +25,6 @@ services:
       - NODE_ENV=development   # Opcional: para configuración de entorno de desarrollo
     volumes:
       - ./orders:/app # Monta el directorio local para la aplicación (desarrollo)
-      - /app/node_modules
 volumes:
   rabbitmq_data:
     driver: local
