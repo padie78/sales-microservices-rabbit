@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "dist/main.js",
   "scripts": {
-    "start": "nest start",
-    "build": "nest build"
+    "start:dev": "nodemon --legacy-watch --watch src src/main.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -20,7 +19,7 @@
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
     "typescript": "^5.0.0",
- "ts-node": "^10.9.2",
-  "nodemon": "^2.0.22"
+    "ts-node": "^10.9.2",
+    "nodemon": "^2.0.22"
   }
 }
