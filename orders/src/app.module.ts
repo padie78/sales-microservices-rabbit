@@ -12,7 +12,7 @@ import { CreateOrderUseCase } from './application/uses-cases/create-order.usecas
         name: 'RABBITMQ_SERVICE', // Nombre del cliente
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://admin:admin@rabbitmq:5672'], // host y puerto de RabbitMQ
+          urls: ['amqp://admin:admin@rabbit:5672'], // host y puerto de RabbitMQ
           queue: 'orders_queue',          // nombre de la cola
           queueOptions: {
             durable: false,
