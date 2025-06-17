@@ -1,0 +1,5 @@
+<form>
+  <input [(ngModel)]="order.item" name="item" placeholder="item" required />
+  <input [(ngModel)]="order.quantity" name="quantity" type="number" placeholder="Quantity" required />
+  <button type="submit" (click)="submitOrder()">Create Order</button>
+</form>

@@ -1,0 +1,18 @@
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Order ID</th>
+      <th>Amount</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let billing of billings">
+      <td>{{ billing.id }}</td>
+      <td>{{ billing.orderId }}</td>
+      <td>{{ billing.amount }}</td>
+      <td>{{ billing.status }}</td>
+    </tr>
+  </tbody>
+</table>

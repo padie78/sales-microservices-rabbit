@@ -1,4 +1,3 @@
-// src/infrastructure/messaging/rabbitmq-order.publisher.ts
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
@@ -19,7 +18,7 @@ export class RabbitMQOrderPublisher implements OnModuleInit {
 
   async publish(order: any): Promise<void> {
     try {
-      const result = await this.client.send('create_order', order).toPromise();
+      const result = await this.client.emit('create_order', order).toPromise();
       return result;
     } catch (err) {
       console.error('Error al enviar a RabbitMQ:', err);
