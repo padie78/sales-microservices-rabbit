@@ -3,7 +3,7 @@ services:
     build: ./app
     container_name: app_service
     ports:
-      - "4200:4200" # Puerto para la aplicación Angular
+      - "4200:4200"
     volumes:
       - ./app:/usr/src/app
       - /usr/src/app/node_modules
@@ -11,7 +11,7 @@ services:
       - gateway
     environment:
       - CHOKIDAR_USEPOLLING=true
-  # Servicio RabbitMQ
+  # RabbitMQ Service
   rabbit:
     image: rabbitmq:3.10-management
     container_name: rabbitmq_service
@@ -25,7 +25,7 @@ services:
       - rabbitmq_data:/opt/rabbitmq/var/lib/rabbitmq  # Persistencia de datos
   # Servicio Node.js (NestJS)
   orders:
-    build: ./orders    
+    build: ./backend/orders    
     container_name: orders_service
     depends_on:
       rabbit:
@@ -39,9 +39,9 @@ services:
       - RABBITMQ_USER=admin
       - RABBITMQ_PASS=admin
     volumes:
-      - ./orders:/app # Monta el directorio local para la aplicación (desarrollo)
+      - ./backend/orders:/app # Monta el directorio local para la aplicación (desarrollo)
   billings:
-    build: ./billings    
+    build: ./backend/billings    
     container_name: billings_service
     depends_on:
       rabbit:
@@ -55,7 +55,7 @@ services:
       - RABBITMQ_USER=admin
       - RABBITMQ_PASS=admin
     volumes:
-      - ./billings:/app # Monta el directorio local para la aplicación (desarrollo)
+      - ./backend/billings:/app # Monta el directorio local para la aplicación (desarrollo)
   gateway:
       build: ./gateway
       container_name: gateway_service

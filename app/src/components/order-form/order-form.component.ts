@@ -14,7 +14,7 @@ export class OrderFormComponent {
 
   constructor(private orderService: OrderService) { }
   
-  submitOrder() {
+  onSubmit() {
     console.log('Submitting order:');
     this.orderService.createOrder(this.order).subscribe(() => {
       this.order = { item: 'test', quantity: 1 };
