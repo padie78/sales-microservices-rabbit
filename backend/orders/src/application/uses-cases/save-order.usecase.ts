@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject} from '@nestjs/common';
 import { IOrder } from '../../domain//interfaces/entities/order.entity.interface';
 import { ISaveOrderUseCase } from '../../domain/interfaces/uses-cases/save-order.usecase.interface';
 import { IOrderRepository } from '../../domain/interfaces/repositories/order.repository.interface';
@@ -9,7 +9,7 @@ import { OrderMapper } from '../../shared/mappers/order.mapper';
 @Injectable()
 export class SaveOrderUseCase implements ISaveOrderUseCase {
   constructor(private readonly publisher: RabbitMQOrderPublisher,
-              private readonly orderRespository: IOrderRepository) {}
+              @Inject('IOrderRepository') private readonly orderRespository: IOrderRepository) {}
 
   async execute(orderRequestDTO: IOrderRequestDTO): Promise<IOrder> {
     const order = OrderMapper.toEntity(orderRequestDTO)

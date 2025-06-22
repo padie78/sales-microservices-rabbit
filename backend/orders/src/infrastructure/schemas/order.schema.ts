@@ -12,6 +12,9 @@ export class Order {
   productId: number;
 
   @Prop({ required: true })
+  quantity: number;
+
+  @Prop({ required: true })
   unitPrice: number;
 
   @Prop({ required: true })

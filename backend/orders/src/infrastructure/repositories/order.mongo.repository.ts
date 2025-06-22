@@ -16,11 +16,11 @@ export class OrderMongoRespository implements IOrderRepository {
   }
 
   async findAll(): Promise<IOrder[]> {
-    return this.orderModel.find().exec(); 
+    return this.orderModel.find().lean().exec(); 
   }
 
   async findById(id: string): Promise<IOrder | null> {
-    return this.orderModel.findById(id).exec();
+    return this.orderModel.findById(id).lean().exec();
   }
 
   async delById(id: string): Promise<boolean> {
