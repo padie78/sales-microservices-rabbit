@@ -6,12 +6,12 @@ import { IOrder } from '../../domain/interfaces/entities/order.entity.interface'
 import { Order, OrderDocument } from '../schemas/order.schema';
 
 @Injectable()
-export class OrderRespository implements IOrderRepository {
+export class OrderMongoRespository implements IOrderRepository {
   constructor(
     @InjectModel(Order.name) private orderModel: Model<OrderDocument>
   ) {}
 
-  async create(order: Partial<IOrder>): Promise<IOrder> {
+  async save(order: Partial<IOrder>): Promise<IOrder> {
     return new this.orderModel(order).save();
   }
 

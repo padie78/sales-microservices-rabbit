@@ -4,9 +4,12 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { RabbitMQOrderPublisher } from './infrastructure/messaging/order.publisher';
 import { OrderController } from './presentation/controllers/order.controller';
-import { CreateOrderUseCase } from './application/uses-cases/create-order.usecase';
 import { Order, OrderSchema } from './infrastructure/schemas/order.schema';
-import { OrderRespository } from './infrastructure/repositories/order.repository';
+import { OrderMongoRespository } from './infrastructure/repositories/order.mongo.repository';
+import { SaveOrderUseCase } from './application/uses-cases/save-order.usecase';
+import { GetAllOrdersUseCase } from './application/uses-cases/get-all-orders.usecase';
+import { GetOrderByIdUseCase } from './application/uses-cases/get-order-byId.usecase';
+import { DelOrderByIdUseCase } from './application/uses-cases/del-order-byId.usecase';
 
 @Module({
   imports: [
@@ -27,7 +30,28 @@ import { OrderRespository } from './infrastructure/repositories/order.repository
     ]),
   ],
   controllers: [OrderController],
-  providers: [RabbitMQOrderPublisher, OrderRespository, CreateOrderUseCase],
+  providers: [RabbitMQOrderPublisher,
+    {
+      provide: 'ISaveOrderUseCase',
+      useClass: SaveOrderUseCase,
+    },
+    {
+      provide: 'IGetAllOrdersUseCase',
+      useClass: GetAllOrdersUseCase,
+    },
+    {
+      provide: 'IGetOrderByIdUseCase',
+      useClass: GetOrderByIdUseCase,
+    },
+    {
+      provide: 'IDelOrderByIdUseCase',
+      useClass: DelOrderByIdUseCase,
+    },
+    {
+      provide: 'IOrderRepository',
+      useClass: OrderMongoRespository,
+    },
+  ],
   exports: [RabbitMQOrderPublisher]
 })
 export class AppModule {}

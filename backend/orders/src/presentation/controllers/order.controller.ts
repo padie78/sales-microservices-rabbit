@@ -1,6 +1,6 @@
 import { Controller, Body, Post, Get, Param, Delete, NotFoundException, HttpCode } from '@nestjs/common';
 import { IOrderController } from '../../domain/interfaces/controllers/order-controller.interface';
-import { ICreateOrderUseCase } from '../../domain/interfaces/uses-cases/create-order.usecase.interface';
+import { ISaveOrderUseCase } from '../../domain/interfaces/uses-cases/save-order.usecase.interface';
 import { IGetAllOrdersUseCase } from '../../domain/interfaces/uses-cases/get-all-orders.usecase.inteface';
 import { IGetOrderByIdUseCase } from '../../domain/interfaces/uses-cases/get-order-byId.usecase.interface';
 import { IDelOrderByIdUseCase } from '../../domain/interfaces/uses-cases/del-order-byId.usecase.interface';
@@ -10,14 +10,14 @@ import { OrderMapper } from '../../shared/mappers/order.mapper';
 
 @Controller('orders')
 export class OrderController implements IOrderController {
-  constructor(private readonly createOrderUseCase: ICreateOrderUseCase,
+  constructor(private readonly saveOrderUseCase: ISaveOrderUseCase,
               private readonly getAllOrdersUseCase: IGetAllOrdersUseCase,
               private readonly getOrderByIdUseCase: IGetOrderByIdUseCase,
               private readonly delOrderByIdUseCase: IDelOrderByIdUseCase) {}
 
   @Post()
   async save(@Body() orderRequestDTO: IOrderRequestDTO): Promise<IOrderResponseDTO> {
-    const order = await this.createOrderUseCase.execute(orderRequestDTO);
+    const order = await this.saveOrderUseCase.execute(orderRequestDTO);
     return OrderMapper.toResponse(order);
   }
 
