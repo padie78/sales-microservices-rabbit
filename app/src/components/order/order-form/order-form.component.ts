@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { OrderService } from '../../services/order.service';
-import { Order } from '../../models/order.model';
+import { OrderingService } from '../../../services/ordering.service';
+import { Order } from '../../../models/order.model';
 
 @Component({
   selector: 'app-order-form',
@@ -12,11 +12,11 @@ export class OrderFormComponent {
     quantity: 1
   };
 
-  constructor(private orderService: OrderService) { }
+  constructor(private orderingService: OrderingService) { }
   
   onSubmit() {
     console.log('Submitting order:');
-    this.orderService.createOrder(this.order).subscribe(() => {
+    this.orderingService.createOrder(this.order).subscribe(() => {
       this.order = { item: 'test', quantity: 1 };
     });
   }

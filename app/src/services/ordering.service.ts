@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Order } from '../models/order.model';
 
 @Injectable({ providedIn: 'root' })
-export class OrderService {
+export class OrderingService {
   private baseUrl = 'http://localhost:3003/orders'; // API Gateway
 
   constructor(private http: HttpClient) { }

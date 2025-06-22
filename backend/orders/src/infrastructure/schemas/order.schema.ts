@@ -6,10 +6,16 @@ export type OrderDocument = Order & Document;
 @Schema()
 export class Order {
   @Prop({ required: true })
-  item: string;
+  customerId: number;
 
   @Prop({ required: true })
-  quantity: number;
+  productId: number;
+
+  @Prop({ required: true })
+  unitPrice: number;
+
+  @Prop({ required: true })
+  subtotal: number;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);
