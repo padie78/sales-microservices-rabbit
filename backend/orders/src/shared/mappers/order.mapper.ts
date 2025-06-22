@@ -1,19 +1,11 @@
-import { CreateOrderCommand } from '../../application/commands/create-order.command';
 import { OrderRequestDTO } from '../../presentation/dto/request/order.request.dto';
 import { OrderResponseDTO } from '../../presentation/dto/response/order.response.dto';
+import { IOrder } from '../../domain/interfaces/entities/order.entity.interface';
 import { Order } from '../../domain/entities/order.entity';
 
 export class OrderMapper {
-  static toCommand(dto: OrderRequestDTO): CreateOrderCommand {
-    return new CreateOrderCommand(               dto.customerId,
-                dto.productId,
-                dto.quantity,
-                dto.unitPrice,
-                dto.subtotal
- );
-  }
-
-  static toResponse(order: Order): OrderResponseDTO {
+  
+  static toResponse(order: IOrder): OrderResponseDTO {
     return {
       id: '11',
       customerId: order.customerId,
@@ -25,13 +17,13 @@ export class OrderMapper {
     };
   }
 
-  static toEntity(command: CreateOrderCommand): Order {
+  static toEntity(orderRequestDTO: OrderRequestDTO): IOrder {
       return new Order(
-                command.customerId,
-                command.productId,
-                command.quantity,
-                command.unitPrice,
-                command.subtotal
+                orderRequestDTO.customerId,
+                orderRequestDTO.productId,
+                orderRequestDTO.quantity,
+                orderRequestDTO.unitPrice,
+                orderRequestDTO.subtotal
               );
   }
 }
