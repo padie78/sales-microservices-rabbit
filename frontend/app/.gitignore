@@ -1,0 +1,42 @@
+# --- DEPENDENCIAS ---
+node_modules/
+.npm/
+
+# --- SALIDA DE COMPILACIÓN ---
+dist/
+out-tsc/
+bazel-out/
+
+# --- CACHÉ Y TEMPORALES ---
+.angular/
+.cache/
+.sass-cache/
+connect.lock
+coverage/
+libpeerandthunk.a
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- IDEs Y EDITORES ---
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# --- PRUEBAS ---
+/e2e/dist/
+/e2e/screenshots/
+
+# --- VARIABLES DE ENTORNO ---
+.env
+.env.local
+.env.*.local
+
+# --- OTROS ---
+.git/

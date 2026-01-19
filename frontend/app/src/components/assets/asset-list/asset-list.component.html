@@ -1,0 +1,98 @@
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h2 class="h4 mb-0"><i class="bi bi-layers"></i> Asset Management </h2>
+    </div>
+    
+    <div class="card-body">
+      <ul class="nav nav-pills nav-fill mb-4">
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="modo === 'ID'" (click)="modo = 'ID'">
+            <i class="bi bi-search"></i> By ID
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="modo === 'DATE'" (click)="modo = 'DATE'">
+            <i class="bi bi-calendar-event"></i> By Fecha
+          </button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" [class.active]="modo === 'ZONE'" (click)="modo = 'ZONE'">
+            <i class="bi bi-geo-alt"></i> By Bounding Box
+          </button>
+        </li>
+      </ul>
+
+      <div class="bg-light p-4 rounded border mb-4">
+        <div class="row g-3 align-items-end">
+          
+          <div class="col-md-9" *ngIf="modo === 'ID'">
+            <label class="form-label fw-bold">Asset ID</label>
+            <input type="text" class="form-control" [(ngModel)]="searchId" placeholder="Ej: asset-017">
+          </div>
+
+          <div class="col-md-9" *ngIf="modo === 'DATE'">
+            <label class="form-label fw-bold">Date</label>
+            <input type="date" class="form-control" [(ngModel)]="searchDate">
+          </div>
+
+          <div class="col-12" *ngIf="modo === 'ZONE'">
+            <label class="form-label fw-bold mb-2">Bounding Box Coordinates</label>
+            <div class="row g-2">
+              <div class="col-md-3">
+                <input type="number" class="form-control" [(ngModel)]="bbox.minLat" placeholder="Min Lat">
+              </div>
+              <div class="col-md-3">
+                <input type="number" class="form-control" [(ngModel)]="bbox.minLon" placeholder="Min Lon">
+              </div>
+              <div class="col-md-3">
+                <input type="number" class="form-control" [(ngModel)]="bbox.maxLat" placeholder="Max Lat">
+              </div>
+              <div class="col-md-3">
+                <input type="number" class="form-control" [(ngModel)]="bbox.maxLon" placeholder="Max Lon">
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 d-grid">
+            <button class="btn btn-success" (click)="buscar()" [disabled]="loading">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+              {{ loading ? 'Searching...' : 'SEARCH NOW' }}
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="table-responsive" *ngIf="assets.length > 0">
+        <table class="table table-hover align-middle border">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">File Name</th>
+              <th scope="col" class="text-end">Area</th>
+              <th scope="col">Center (Lat, Lon)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let asset of assets">
+              <td><span class="badge bg-secondary">{{ asset.assetId }}</span></td>
+              <td class="text-primary fw-semibold">{{ asset.filename }}</td>
+              <td class="text-end">{{ asset.area | number }} m²</td>
+              <td>
+                <small class="text-muted">
+                  <i class="bi bi-geo-fill"></i> {{ asset.center[0] }}, {{ asset.center[1] }}
+                </small>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="assets.length === 0 && !loading" class="alert alert-info text-center">
+        No data to display. Perform a search to begin.
+      </div>
+
+    </div>
+  </div>
+</div>
